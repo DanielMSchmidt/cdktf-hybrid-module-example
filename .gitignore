@@ -51,4 +51,8 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+src/.gen
+src/cdktf.out
+src/modules
+!/scripts/copy-modules.sh
 !/.github/workflows/upgrade-main.yml
