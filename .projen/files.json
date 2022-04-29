@@ -1,5 +1,6 @@
 {
   "files": [
+    "./scripts/tf-module-test.sh",
     ".eslintrc.json",
     ".gitattributes",
     ".github/pull_request_template.md",
@@ -9,6 +10,7 @@
     ".github/workflows/upgrade-main.yml",
     ".gitignore",
     ".mergify.yml",
+    ".pre-commit-config.yml",
     ".prettierignore",
     ".prettierrc.json",
     ".projen/deps.json",

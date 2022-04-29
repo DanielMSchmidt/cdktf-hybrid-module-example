@@ -38,5 +38,4 @@ for d in */ ; do
     mkdir -p "$TARGET_FOLDER/$dirname"
     cp "$MODULES_FOLDER/$dirname/cdk.tf.json" "$TARGET_FOLDER/$dirname/cdk.tf.json"
     cp "$SRC_FOLDER/$dirname.md" "$TARGET_FOLDER/$dirname/README.md"
-    
 done

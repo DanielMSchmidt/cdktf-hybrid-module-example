@@ -109,7 +109,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "node .projenrc.js"
+          "exec": "ts-node --project tsconfig.dev.json .projenrc.ts"
         }
       ]
     },
@@ -139,7 +139,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools .projenrc.js"
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools"
         }
       ]
     },
@@ -187,6 +187,15 @@
       "name": "pre-compile",
       "description": "Prepare the project for compilation"
     },
+    "precommit": {
+      "name": "precommit",
+      "description": "Runs precommit hooks",
+      "steps": [
+        {
+          "exec": "pre-commit install"
+        }
+      ]
+    },
     "release": {
       "name": "release",
       "description": "Prepare a release from \"main\" branch",
@@ -220,6 +229,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "exec": "./scripts/tf-module-test.sh"
         }
       ]
     },

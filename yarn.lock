@@ -5199,8 +5199,10 @@ progress@^2.0.3:
   resolved "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-"projen-cdktf-hybrid-construct@file:../projen-cdktf-hybrid-construct":
-  version "0.0.0"
+projen-cdktf-hybrid-construct@0.1.34:
+  version "0.1.34"
+  resolved "https://registry.yarnpkg.com/projen-cdktf-hybrid-construct/-/projen-cdktf-hybrid-construct-0.1.34.tgz#0d0085d3e9a1066f61335b84cc4ec2cc847ee4bd"
+  integrity sha512-3SrgzO5PKQSoR80pkdIIN58z8xIbbBSoiZ9adlPh4YRmSoAtKRRFhUxMAHsgWvMacsIh6Ia8LCWLQWc9d34MZQ==
   dependencies:
     projen "^0.53.6"
 
