@@ -1508,10 +1508,10 @@ cdktf-cli@^0.9.4:
     jsii-pacmak "^1.54.0"
     yargs "^17.3"
 
-cdktf-tf-module-stack@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/cdktf-tf-module-stack/-/cdktf-tf-module-stack-0.0.7.tgz#bf69dd0f0ae3211b65490388a79d920a958d0b07"
-  integrity sha512-M6RgVAEQ/HluA1KWOyb6JI3glTxWuugtyRK6QfAePE7u2o5ID19ryEbRNmlPiaQWZSyJU2mtZMeM2DM2VVp3gQ==
+cdktf-tf-module-stack@^0.0.46:
+  version "0.0.46"
+  resolved "https://registry.yarnpkg.com/cdktf-tf-module-stack/-/cdktf-tf-module-stack-0.0.46.tgz#47ddbca41fefe698b438fdb0984d109ad3980726"
+  integrity sha512-vFtrMAH3qcr9mcWL2yKzMuWJqTrNprN3CRILDCscz7oX6EQTB6y3+p1XblvUMFCuzj/CK0S2oEwoqC8cLkrnGw==
 
 cdktf@0.9.4:
   version "0.9.4"
