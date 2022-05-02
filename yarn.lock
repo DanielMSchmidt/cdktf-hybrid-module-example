@@ -906,6 +906,11 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
+"@types/uuid@^8.3.4":
+  version "8.3.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
+
 "@types/yargs-parser@*":
   version "21.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-21.0.0.tgz#0c60e537fa790f5f9472ed2776c2b71ec117351b"
@@ -5257,12 +5262,14 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen-cdktf-hybrid-construct@0.1.37:
-  version "0.1.37"
-  resolved "https://registry.yarnpkg.com/projen-cdktf-hybrid-construct/-/projen-cdktf-hybrid-construct-0.1.37.tgz#8ca4d33d704d4446db543c35ab438cceb6f484e7"
-  integrity sha512-iYvUy+vdjGWP3CsgMm/WxnXKZOA9+qi5+U33Fo2AEwF4KNiKTf6RD3S+1buCOev8vE5g2WEZiD25f4s5IVkuVg==
+projen-cdktf-hybrid-construct@0.1.40:
+  version "0.1.40"
+  resolved "https://registry.yarnpkg.com/projen-cdktf-hybrid-construct/-/projen-cdktf-hybrid-construct-0.1.40.tgz#854aa1a7032a0f896a0e9898246d06ac5c88f2e0"
+  integrity sha512-9CEfGdx+2AXtIxF7V3NmogeiSB7VhcindMuGsvneGTYW0FoEcswhehoGuxB6PuTJk8EEQbOHNUbWP6hppkYfXA==
   dependencies:
+    "@types/uuid" "^8.3.4"
     projen "^0.53.6"
+    uuid "^8.3.2"
 
 projen@^0.53.6:
   version "0.53.16"
