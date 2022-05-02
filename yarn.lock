@@ -5262,10 +5262,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen-cdktf-hybrid-construct@0.1.42:
-  version "0.1.42"
-  resolved "https://registry.yarnpkg.com/projen-cdktf-hybrid-construct/-/projen-cdktf-hybrid-construct-0.1.42.tgz#26ed02b96a2bc641da6990bbfe1bdf2ffc097777"
-  integrity sha512-aERrKesDwP9E0vAAxk/IEINI4kN8/zWH/SePh625Zu6UO8nyDyyw5lOlppRemwLYOU/yDUJ9EkDT0JViMW7DGw==
+projen-cdktf-hybrid-construct@0.1.43:
+  version "0.1.43"
+  resolved "https://registry.yarnpkg.com/projen-cdktf-hybrid-construct/-/projen-cdktf-hybrid-construct-0.1.43.tgz#31ea42f5ac0ca277b5617c775c448aa69d3e5ab7"
+  integrity sha512-j7mZTPlPYLNVmvOVsippwjoTJnfYOh3J1eMaPmKMS9B4wLE5JHNXtvy7uq4phHqUt0wuqWiJIDTK/lUvtYLRjg==
   dependencies:
     "@types/uuid" "^8.3.4"
     projen "^0.53.6"
