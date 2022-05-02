@@ -13,7 +13,8 @@ const project = new HybridModule({
     region: "eu-central-1",
     requiredProviderVersion: "3.74",
   },
-
+  cdktfVersion: "0.10.1",
+  constructVersion: "10.0.107",
   devDeps: ["projen-cdktf-hybrid-construct"],
 });
 project.synth();

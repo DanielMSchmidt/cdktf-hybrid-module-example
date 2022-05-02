@@ -3,16 +3,11 @@
     "metadata": {
       "backend": "local",
       "stackName": "my-awesome-module",
-      "version": "0.9.4"
+      "version": "0.10.1"
     },
     "outputs": {
     }
   },
   "terraform": {
-    "backend": {
-      "local": {
-        "path": "/Users/danielschmidt/work/cdktf-hybrid-modules/cdktf-hybrid-module-example/src/terraform.my-awesome-module.tfstate"
-      }
-    }
   }
 }
