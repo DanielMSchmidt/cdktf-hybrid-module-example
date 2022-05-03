@@ -293,8 +293,6 @@ for d in */ ; do
     cp "$MODULES_FOLDER/$dirname/cdk.tf.json" "$TARGET_FOLDER/$dirname/cdk.tf.json"
     cp "$SRC_FOLDER/$dirname.md" "$TARGET_FOLDER/$dirname/README.md"
 
-
-    
     # Add README hcl docs
     if which terraform-docs >/dev/null; then
       terraform-docs markdown table --output-file "$TARGET_FOLDER/$dirname/README.md" "$TARGET_FOLDER/$dirname" 
