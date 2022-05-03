@@ -2,26 +2,18 @@ import { FileBase, IResolver, Project, SampleDir } from "projen";
 import { ConstructLibrary, ConstructLibraryOptions } from "projen/lib/cdk";
 import { v4 as uuid } from "uuid";
 
-type TerraformProviderAwsConfig = {
-  region: string;
-  requiredProviderVersion: string;
-};
-
-type TerraformProviderAzureConfig = {
-  location: string;
-  requiredProviderVersion: string;
-  resourceGroupName: string;
-};
-
 type HybridModuleOptions = ConstructLibraryOptions & {
   cdktfVersion?: string;
   constructVersion?: string;
   repository: string;
   author: string;
-  terraformExamplesFolder: string;
-  terraformProvider: string;
-  terraformProviderAwsConfig?: TerraformProviderAwsConfig;
-  terraformProviderAzureConfig?: TerraformProviderAzureConfig;
+  // If set a terraform examples folder will be created
+  terraformExamples?: {
+    // Path for the terraform examples
+    folder?: string;
+    // The HCL config file to use for the terraform provider
+    providerConfig?: string;
+  };
   // Defaulted to a uuid string as cdktf would
   projectId?: string;
 };
@@ -69,57 +61,6 @@ const app = new App();
 new MyAwesomeModule(app, "my-awesome-module");
 app.synth();
 `;
-
-const terraformAwsMainSrcCode = `
-terraform {
-  # Limit provider version (some modules are not compatible with aws 4.x)
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> __requiredProviderVersion__"
-    }
-  }
-  # Terraform binary version constraint
-  required_version = "~> 1.1.0"
-}
-
-
-provider "aws" {
-  region = "__region__"
-}
-`;
-
-const terraformAzureMainSrcCode = `
-# Configure the Azure provider
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> __requiredProviderVersion__"
-    }
-  }
-
-  required_version = ">= 1.1.0"
-}
-
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "rg" {
-  name     = "__resourceGroupName__"
-  location = "__location__"
-}
-`;
-
-const terraformMainSrcCodeMap: { [key: string]: { srcCode: string } } = {
-  aws: {
-    srcCode: terraformAwsMainSrcCode,
-  },
-  azure: {
-    srcCode: terraformAzureMainSrcCode,
-  },
-};
 
 const terraformReadmeDocs = `
 # Please add here some pure HCL tests for your modules in order to test HCL Interoperability
@@ -203,43 +144,43 @@ module "eks_managed_node_group" {
       },
     });
 
-    // Retrieve correct TF main stuff
-    let mainTfFile =
-      terraformMainSrcCodeMap[config.terraformProvider].srcCode.trim();
+    if (config.terraformExamples) {
+      const providerConfig =
+        config.terraformExamples.providerConfig ||
+        `
+terraform {
+  # Terraform binary version constraint
+  required_version = "~> 1.1.0"
 
-    let configProperty: any = {};
-    switch (config.terraformProvider) {
-      case "aws": {
-        configProperty = config.terraformProviderAwsConfig;
-        break;
-      }
-      case "azure": {
-        configProperty = config.terraformProviderAzureConfig;
-        break;
-      }
-      default: {
-        throw new Error(
-          "Need to define correctly a Provider, only [aws,azure,gcp] allowed"
-        );
-      }
+  # Define all needed providers here, you can find all available providers here:
+  # https://registry.terraform.io/
+  required_providers {}
+}
+
+# Initialize your provider here
+
+`.trim();
+      const examplesFolder =
+        config.terraformExamples.folder || "terraform-examples";
+
+      new SampleDir(this, examplesFolder, {
+        files: {
+          "main.tf": `
+# Configure Terraform
+${providerConfig}
+
+            `.trimStart(),
+          "README.md": terraformReadmeDocs.trim(),
+        },
+      });
+
+      this.gitignore.addPatterns(
+        `${examplesFolder}/.terraform`,
+        `${examplesFolder}/.terraform.lock.hcl`
+      );
     }
 
-    Object.keys(configProperty).forEach((key: string) => {
-      mainTfFile = mainTfFile.replace(`__${key}__`, configProperty[key]);
-    });
-
-    new SampleDir(this, config.terraformExamplesFolder, {
-      files: {
-        "main.tf": mainTfFile,
-        "README.md": terraformReadmeDocs.trim(),
-      },
-    });
-
     this.gitignore.addPatterns("src/.gen", "src/cdktf.out", "src/modules");
-    this.gitignore.addPatterns(
-      `${config.terraformExamplesFolder}/.terraform`,
-      `${config.terraformExamplesFolder}/.terraform.lock.hcl`
-    );
     this.compileTask.prependExec("cdktf get", {
       cwd: this.srcdir,
     });
@@ -337,11 +278,26 @@ const project = new HybridModule({
   defaultReleaseBranch: "main",
   authorAddress: "danielmschmidt92@gmail.com",
   repositoryUrl: "github.com/DanielMSchmidt/my-module",
-  terraformProvider: "aws",
-  terraformExamplesFolder: "terraform",
-  terraformProviderAwsConfig: {
-    region: "eu-central-1",
-    requiredProviderVersion: "3.74",
+  terraformExamples: {
+    folder: "terraform",
+    providerConfig: `
+    terraform {
+      # Limit provider version (some modules are not compatible with aws 4.x)
+      required_providers {
+        aws = {
+          source  = "hashicorp/aws"
+          version = "~> 3.74"
+        }
+      }
+      # Terraform binary version constraint
+      required_version = "~> 1.1.0"
+    }
+    
+    
+    provider "aws" {
+      region = "eu-central-1"
+    }
+    `,
   },
   cdktfVersion: "0.10.1",
   constructVersion: "10.0.107",
