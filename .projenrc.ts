@@ -5,14 +5,24 @@ import { v4 as uuid } from "uuid";
 type HybridModuleOptions = ConstructLibraryOptions & {
   cdktfVersion?: string;
   constructVersion?: string;
+  // URL of the repository
   repository: string;
+  // Name of the author
   author: string;
   // If set a terraform examples folder will be created
   terraformExamples?: {
+    // If set terraform examples will be rendered
+    enabled: boolean;
     // Path for the terraform examples
     folder?: string;
     // The HCL config file to use for the terraform provider
     providerConfig?: string;
+  };
+  constructExamples?: {
+    // If set construct examples will be rendered
+    enabled: boolean;
+    // Path for the construct examples
+    folder?: string;
   };
   // Defaulted to a uuid string as cdktf would
   projectId?: string;
@@ -144,7 +154,7 @@ module "eks_managed_node_group" {
       },
     });
 
-    if (config.terraformExamples) {
+    if (config.terraformExamples && config.terraformExamples.enabled) {
       const providerConfig =
         config.terraformExamples.providerConfig ||
         `
@@ -178,6 +188,81 @@ ${providerConfig}
         `${examplesFolder}/.terraform`,
         `${examplesFolder}/.terraform.lock.hcl`
       );
+    }
+
+    if (config.constructExamples && config.constructExamples.enabled) {
+      const constructExampleFolder =
+        config.constructExamples.folder || "construct-examples";
+
+      const levels = constructExampleFolder
+        .split("/")
+        .map(() => "..")
+        .join("/");
+
+      const constructReadmeDocs = `
+# Construct Examples
+
+Example use-cases for the Construct library.
+
+- [Basic Usage](./basic.ts)
+
+To ensure all examples are working, please make sure the [index.ts](./index.ts) file is importing all of them.
+`;
+
+      const constructExampleCode = `
+import { TerraformStack } from "cdktf";
+import { Construct } from "constructs";
+
+import { MyConstruct } from "${levels}/src/";
+
+export class BasicExample extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new MyConstruct(this, "my-construct", {
+      propertyA: "valueA",
+    });
+  }
+}
+
+
+`;
+
+      const exampleCollectionCode = `
+// This file will be synthesized to check if all examples are working
+
+import { App } from "cdktf";
+// All examples need to be imported here
+import { BasicExample } from "./basic";
+
+const app = new App();
+
+// All examples need to be initialized here
+new BasicExample(app, "basic-example");
+app.synth();
+`;
+
+      new SampleDir(this, constructExampleFolder, {
+        files: {
+          "index.ts": exampleCollectionCode.trim(),
+          "basic.ts": constructExampleCode.trim(),
+          "cdktf.json": JSON.stringify(
+            {
+              language: "typescript",
+              app: "npx ts-node index.ts",
+              projectId: config.projectId || uuid(),
+            },
+            null,
+            2
+          ),
+          "README.md": constructReadmeDocs.trim(),
+        },
+      });
+
+      this.testTask.exec(`cdktf synth`, {
+        cwd: constructExampleFolder,
+      });
+      this.gitignore.addPatterns(`${constructExampleFolder}/cdktf.out`);
     }
 
     this.gitignore.addPatterns("src/.gen", "src/cdktf.out", "src/modules");
@@ -279,6 +364,7 @@ const project = new HybridModule({
   authorAddress: "danielmschmidt92@gmail.com",
   repositoryUrl: "github.com/DanielMSchmidt/my-module",
   terraformExamples: {
+    enabled: true,
     folder: "terraform",
     providerConfig: `
     terraform {
@@ -298,6 +384,10 @@ const project = new HybridModule({
       region = "eu-central-1"
     }
     `,
+  },
+  constructExamples: {
+    enabled: true,
+    folder: "construct-examples",
   },
   cdktfVersion: "0.10.1",
   constructVersion: "10.0.107",

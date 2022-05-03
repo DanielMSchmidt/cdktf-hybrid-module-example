@@ -1,0 +1,5 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node index.ts",
+  "projectId": "acc5a88d-c338-481b-9814-b5aea0a536f4"
+}
