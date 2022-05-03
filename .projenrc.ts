@@ -48,6 +48,26 @@ export class MyConstruct extends Construct {
 }
 `;
 
+const constructTestCode = `
+import { Testing } from "cdktf";
+import "cdktf/lib/testing/adapters/jest";
+import { MyConstruct } from "../";
+
+// To learn more about testing see cdk.tf/testing
+describe("MyConstruct", () => {
+  it("should synthesize", () => {
+    expect(
+      Testing.synthScope((scope) => {
+        new MyConstruct(scope, "my-construct", {
+          propertyA: "valueA",
+        });
+      })
+    ).toMatchSnapshot();
+  });
+});
+
+`;
+
 const moduleSrcCode = `
 import { App } from "cdktf";
 import { Construct } from "constructs";
@@ -151,6 +171,7 @@ module "eks_managed_node_group" {
           null,
           2
         ),
+        "__tests__/index-test.ts": constructTestCode.trim(),
       },
     });
 

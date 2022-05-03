@@ -1,8 +1,10 @@
 {
   "language": "typescript",
   "app": "npx ts-node tfModules.ts",
-  "terraformProviders": ["hashicorp/null@3.1.1"],
+  "terraformProviders": [
+    "hashicorp/null@3.1.1"
+  ],
   "terraformModules": [],
   "output": "modules",
-  "projectId": "049e4d7e-f783-4864-be74-9a7e723e994f"
+  "projectId": "b7ad7e6e-7606-44eb-85bf-b150c246606c"
 }
