@@ -45,5 +45,4 @@ for d in */ ; do
     else
       docker run --rm --volume "$SCRIPTPATH/../modules:/terraform-docs" -u $(id -u) quay.io/terraform-docs/terraform-docs:0.16.0 markdown table --output-file "/terraform-docs/$dirname/README.md" /terraform-docs/$dirname
     fi
-    
 done
